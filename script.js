@@ -182,17 +182,14 @@ function skiftPersonaleBilleder() {
 /***** START *****/
 
 window.addEventListener("load", function() {
-  startUr();
 
   if ($("week")) {
     visUge();
     visPersonale();
     startSlideshow();
-    hentVejr();
     hentOgVisAktiviteter();
 
     setInterval(hentOgVisAktiviteter, 300000);
-    setInterval(hentVejr, 5 * 60 * 1000);
   }
 
   if ($("dato")) {
