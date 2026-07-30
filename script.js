@@ -3,12 +3,12 @@ var OPRET_KODE = "12345678";
 var PERSONER = [
   "Anja",
   "Bettina",
+  "Dennis",
   "Ditte",
   "Michael",
   "Peter",
   "Sanne",
   "Frederik",
-  "Jan",
   "Janni",
   "Pernille"
 ];
@@ -43,11 +43,11 @@ var PERSON_BILLEDER = {
   Anja: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/anja.jpg",
   Bettina: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/bettina.jpg",
   Ditte: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/ditte.jpg",
+  Dennis: "personale/mand-silhuet.png",
   Michael: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/michael.jpg",
   Peter: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/peter.jpg",
   Sanne: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/sanne.jpg",
   Frederik: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/frederik.jpg",
-  Jan: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/jan.jpg",
   Janni: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/janni.jpg",
   Pernille: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/pernille.jpg"
 };
