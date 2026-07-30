@@ -555,7 +555,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  gap: clamp(4px, 0.7vw, 12px);
+  gap: clamp(8px, 1vw, 18px);
 }
 
 .bottom-box .person {
