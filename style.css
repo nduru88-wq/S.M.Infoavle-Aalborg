@@ -330,12 +330,6 @@ body {
   display: block;
 }
 
-/* UR */
-
-#ur.simuleret {
-  background: #b00000;
-}
-
 /* MODAL */
 
 .modal-bg {
@@ -646,7 +640,10 @@ body {
   min-height: 0;
 }
 
+/* PERSONALE */
+
 .personale-del {
+  height: calc(100% - 32px);
   min-height: 0;
   overflow: hidden;
   display: flex;
@@ -655,6 +652,7 @@ body {
 }
 
 .personale-del .staff {
+  width: 100%;
   height: 100%;
   padding: 0;
   display: flex;
@@ -689,126 +687,6 @@ body {
   border-radius: 50% / 42%;
   object-fit: cover;
 }
-
-
-/* VEJR + UR */
-
-.vejr-del {
-  background: #f4f8ff;
-  border-radius: 12px;
-  padding: 8px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  align-items: center;
-  min-height: 0;
-  box-shadow: inset 0 0 0 1px #d7e3f5;
-}
-
-.vejr-venstre {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.vejr-titel {
-  font-size: 16px;
-  font-weight: 900;
-  color: #003366;
-  margin-bottom: 4px;
-}
-
-#vejrIndhold {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 2px;
-}
-
-.vejr-ikon {
-  font-size: 38px;
-  line-height: 1;
-  animation: vejrPuls 2s infinite ease-in-out;
-}
-
-.vejr-temp {
-  font-size: 28px;
-  font-weight: 900;
-  line-height: 1;
-  color: #2f3b4d;
-}
-
-.vejr-tekst {
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-}
-
-.vejr-hoejre {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  border-left: 1px solid #cfd8e3;
-}
-
-.vejr-hoejre #ur {
-  position: static;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  border-radius: 0;
-  color: #2f3b4d;
-  text-align: center;
-  font-size: 28px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.vejr-hoejre #sidstOpdateret {
-  font-size: 12px;
-  color: #666;
-  margin-top: 6px;
-  line-height: 1.2;
-}
-
-.ur-flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.ur-info {
-  text-align: center;
-}
-
-#aktuelDato {
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 6px;
-}
-
-#urTid {
-  font-size: 34px;
-  font-weight: 900;
-  line-height: 1;
-  color: #2f3b4d;
-}
-
-@keyframes vejrPuls {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.12); }
-  100% { transform: scale(1); }
-}
-
 
 /* SLIDESHOW */
 
