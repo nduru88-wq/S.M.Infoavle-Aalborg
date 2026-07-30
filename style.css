@@ -894,3 +894,56 @@ body.loading #dataLoaderOverlay {
   display: flex;
   flex-direction: column;
 }
+
+/* =========================================================
+   RETTELSE 30-07-2026: Personale i 2 vandrette rækker á 5
+   Denne blok ligger sidst og tilsidesætter ældre regler.
+   ========================================================= */
+.personale-del {
+  display: block;
+  height: calc(100% - 32px);
+  overflow: hidden;
+}
+
+.personale-del .staff {
+  width: 100%;
+  height: 100%;
+  padding: 4px 12px 8px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  overflow: hidden;
+}
+
+.personale-del .staff-row,
+.personale-del .staff-row-bottom,
+.personale-del .staff-row-top {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: 6px;
+}
+
+.personale-del .person {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(10px, 0.8vw, 14px);
+  line-height: 1.05;
+}
+
+.personale-del .person-img-wrap {
+  width: clamp(38px, 4.2vw, 66px);
+  height: clamp(38px, 4.2vw, 66px);
+  margin: 0 auto 3px;
+  flex: 0 0 auto;
+}
