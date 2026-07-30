@@ -542,18 +542,35 @@ body {
   padding: 0 12px;
   height: calc(100% - 32px);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(4px, 0.7vw, 12px);
-  flex-wrap: nowrap;
-  overflow: visible;
+  gap: 8px;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
-.staff-row,
-.staff-row-bottom {
-  display: contents;
+.bottom-box .staff-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: clamp(4px, 0.7vw, 12px);
+}
+
+.bottom-box .person {
+  flex: 0 1 18%;
+  max-width: 90px;
+}
+
+.bottom-box .person-img-wrap {
+  width: clamp(44px, 4vw, 68px);
+  height: clamp(44px, 4vw, 68px);
+  margin-bottom: 3px;
+}
+
+.bottom-box .person {
+  font-size: clamp(10px, 0.9vw, 13px);
 }
 
 .bottom-box .person {
