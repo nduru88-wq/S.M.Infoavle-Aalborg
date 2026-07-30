@@ -330,6 +330,12 @@ body {
   display: block;
 }
 
+/* UR */
+
+#ur.simuleret {
+  background: #b00000;
+}
+
 /* MODAL */
 
 .modal-bg {
@@ -630,16 +636,6 @@ body {
 .mini-event.standard { border-color: #0066aa; }
 
 
-/* PERSONALE + VEJR */
-
-.personale-vejr-wrap {
-  height: calc(100% - 32px);
-  display: grid;
-  grid-template-rows: 1.2fr 0.8fr;
-  gap: 8px;
-  min-height: 0;
-}
-
 /* PERSONALE */
 
 .personale-del {
@@ -654,37 +650,39 @@ body {
 .personale-del .staff {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding: 0 12px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  gap: 6px;
+  gap: clamp(4px, 0.7vw, 12px);
   flex-wrap: nowrap;
+  overflow: hidden;
 }
 
-.personale-del .staff-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
+.personale-del .staff-row,
+.personale-del .staff-row-bottom {
+  display: contents;
 }
 
 .personale-del .person {
-  font-size: 13px;
+  font-size: clamp(10px, 0.8vw, 14px);
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: clamp(38px, 4.6vw, 68px);
 }
 
 .personale-del .person-img-wrap {
-  width: min(9vw, 78px);
-  height: min(12vw, 100px);
-  margin-bottom: 3px;
+  width: clamp(38px, 4.6vw, 68px);
+  height: clamp(38px, 4.6vw, 68px);
+  margin: 0 auto 4px auto;
 }
 
 .personale-del .person img {
   width: 100%;
   height: 100%;
-  border-radius: 50% / 42%;
+  border-radius: 50%;
   object-fit: cover;
 }
 
