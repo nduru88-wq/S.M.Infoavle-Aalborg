@@ -220,6 +220,7 @@ function skalViseNote(aktivitet) {
     "Aktivitets café",
     "Friday Minds",
     "Fællespause",
+    "Info",
     "KREA",
     "Praktisk værksted",
     "Undervisning",
