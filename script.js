@@ -57,7 +57,6 @@ var AKTIVITETS_INFO = {
   "Arbejder hjemme": { ikon: "🏠", klasse: "hjemme" },
   "Besøg": { ikon: "🤝", klasse: "besoeg" },
   "Faglig sparring": { ikon: "💬", klasse: "sparring" },
-  "Info": { ikon: "ℹ️", klasse: "info" },
   "Ferie": { ikon: "🌴", klasse: "ferie" },
   "Friday Minds": { ikon: "🎉", klasse: "friday" },
   "Fri": { ikon: "☀️", klasse: "fri" },
@@ -182,7 +181,6 @@ function skiftPersonaleBilleder() {
 /***** START *****/
 
 window.addEventListener("load", function() {
-
   if ($("week")) {
     visUge();
     visPersonale();
