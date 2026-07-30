@@ -1108,8 +1108,8 @@ function visPersonale() {
 
   var valgtDato = hentAktuelDato();
 
-  var raekke1 = PERSONER.slice(0, 6);
-  var raekke2 = PERSONER.slice(6);
+  var raekke1 = PERSONER.slice(0, 5);
+var raekke2 = PERSONER.slice(5, 10);
 
   function lavPersonElement(person) {
     var aktuelle = aktiviteterGlobal.filter(function(a) {
