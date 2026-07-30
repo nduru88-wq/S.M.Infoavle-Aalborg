@@ -63,23 +63,9 @@
         Personale
       </h3>
 
-      <div class="personale-vejr-wrap">
-
-        <div class="personale-del">
-          <div class="staff" id="staff"></div>
-        </div>
-
-        <div class="vejr-del">
-
-          <div class="vejr-venstre">
-            <div class="vejr-titel">Vejret (Aalborg)</div>
-
-            <div id="vejrIndhold">
-              <div class="vejr-ikon">☀️</div>
-              <div class="vejr-temp">--</div>
-              <div class="vejr-tekst">Henter vejr...</div>
-            </div>
-          </div>
+<div class="personale-del">
+  <div class="staff" id="staff"></div>
+</div>
 
           <div class="vejr-hoejre">
             <div id="ur" onclick="trykPåUr()">
@@ -105,26 +91,6 @@
       </div>
     </div>
 
-  </div>
-
-  <div id="simModal" class="modal-bg">
-    <div class="modal-box">
-      <h2>Simuleret tid</h2>
-
-      <label>Dato</label>
-      <input type="date" id="simDato">
-
-      <label>Tidspunkt</label>
-      <input type="time" id="simTid">
-
-      <div class="modal-buttons">
-        <button onclick="aktiverSimTid()">Aktiver</button>
-        <button onclick="deaktiverSimTid()">Deaktiver</button>
-        <button onclick="lukSimModal()">Luk</button>
-      </div>
-
-      <div id="simStatus"></div>
-    </div>
   </div>
 
   <script src="script.js"></script>
