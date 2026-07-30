@@ -1,2 +1,2 @@
-# S.M.Infoavle-Aalborg
-S.M.Infoavle-Aalborg
+# SpecialMinds-Infotavle
+SpecialMinds-Infotavle (flyttet til Github)
