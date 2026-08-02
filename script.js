@@ -78,6 +78,9 @@ var AKTIVITETS_INFO = {
 var isRendering = false;
 var renderQueued = false;
 
+/* Timere til automatisk scroll i dagsfelterne */
+var dagScrollTimere = [];
+
 var ugeOffset = 0;
 var aktiviteterGlobal = [];
 var simuleretDato = null;
@@ -921,20 +924,83 @@ function visUge() {
   return String(a.tidspunkt || "").localeCompare(String(b.tidspunkt || ""));
 });
     
+    /* Aktiviteterne placeres i deres egen beholder.
+       Det gør det muligt kun at scrolle indholdet – ikke dagsoverskriften. */
+    var dagScroll = document.createElement("div");
+    dagScroll.className = "day-scroll";
+
     if (!dagens.length) {
       var tom = document.createElement("div");
       tom.className = "noevent";
       tom.textContent = "Ingen aktiviteter";
-      day.appendChild(tom);
+      dagScroll.appendChild(tom);
     } else {
       dagens.forEach(function(a) {
-        day.appendChild(lavEventElement(a));
+        dagScroll.appendChild(lavEventElement(a));
       });
     }
 
+    day.appendChild(dagScroll);
     week.appendChild(day);
   }
+
   visMiniNaesteUge();
+
+  /* Vent til browseren har beregnet højderne, før overflow kontrolleres. */
+  requestAnimationFrame(function() {
+    startAutomatiskDagScroll();
+  });
+}
+
+function stopAutomatiskDagScroll() {
+  dagScrollTimere.forEach(function(timer) {
+    clearTimeout(timer);
+  });
+
+  dagScrollTimere = [];
+}
+
+function startAutomatiskDagScroll() {
+  stopAutomatiskDagScroll();
+
+  var felter = document.querySelectorAll(".day-scroll");
+
+  felter.forEach(function(felt) {
+    felt.scrollTop = 0;
+
+    /* Ingen animation, hvis alle aktiviteter allerede kan ses. */
+    if (felt.scrollHeight <= felt.clientHeight + 2) return;
+
+    var topPause = 3000;
+    var bundPause = 4000;
+    var trinPause = 80;
+    var trin = 1;
+
+    function gemTimer(callback, ventetid) {
+      var timer = setTimeout(callback, ventetid);
+      dagScrollTimere.push(timer);
+    }
+
+    function scrollEtTrin() {
+      var maksScroll = felt.scrollHeight - felt.clientHeight;
+
+      /* Feltet kan være blevet ændret ved en ny indlæsning. */
+      if (!felt.isConnected || maksScroll <= 2) return;
+
+      felt.scrollTop = Math.min(felt.scrollTop + trin, maksScroll);
+
+      if (felt.scrollTop >= maksScroll - 1) {
+        gemTimer(function() {
+          felt.scrollTop = 0;
+          gemTimer(scrollEtTrin, topPause);
+        }, bundPause);
+      } else {
+        gemTimer(scrollEtTrin, trinPause);
+      }
+    }
+
+    gemTimer(scrollEtTrin, topPause);
+  });
 }
 
 function lavEventElement(a) {
