@@ -1095,7 +1095,7 @@ body.loading #dataLoaderOverlay {
   position: absolute !important;
   top: 50% !important;
   right: 12px !important;
-  transform: translateY(-50%);
+  transform: translateY(-35%);
   width: auto !important;
   min-width: 92px !important;
   height: auto !important;
