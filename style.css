@@ -948,3 +948,29 @@ body.loading #dataLoaderOverlay {
   margin: 0 auto 3px;
   flex: 0 0 auto;
 }
+
+/* =========================================================
+   LANGSOM AUTOMATISK SCROLL I DAGSFELTER
+   Aktiveres kun af JavaScript, når aktiviteterne ikke kan være der.
+   Overskriften bliver stående, mens kun aktiviteterne scroller.
+   ========================================================= */
+.day > h2 {
+  flex: 0 0 auto;
+}
+
+.day-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  scrollbar-width: none;
+}
+
+.day-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.day-scroll > .event:last-child {
+  margin-bottom: 0;
+}
+
