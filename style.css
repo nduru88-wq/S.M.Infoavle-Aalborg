@@ -1028,43 +1028,6 @@ body.loading #dataLoaderOverlay {
   background-color: #fff2b8 !important;
 }
 
-
-/* =========================================================
-   RETTELSE 02-08-2026: Ur øverst til højre
-   Bevarer eksisterende ur og 3-klik-funktionen til simuleret tid.
-   ========================================================= */
-.topbar {
-  padding-right: 155px;
-}
-
-#ur {
-  position: fixed !important;
-  top: 7px !important;
-  right: 12px !important;
-  left: auto !important;
-  bottom: auto !important;
-  z-index: 1000 !important;
-  width: 120px !important;
-  min-width: 120px !important;
-  height: 66px !important;
-  min-height: 66px !important;
-  margin: 0 !important;
-  padding: 4px 7px !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  cursor: pointer;
-}
-
-#urTid {
-  font-size: 15px !important;
-  line-height: 1.1 !important;
-  white-space: nowrap;
-}
-
-#aktuelDato {
-  display: none !important;
-}
-
 /* Ugedag og dato på én linje */
 .day h2 {
   white-space: nowrap;
