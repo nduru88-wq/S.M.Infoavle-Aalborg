@@ -1539,7 +1539,7 @@ var slideshowBilleder = [];
 var slideshowTimer = null;
 
 var SLIDESHOW_API =
-  "https://api.github.com/repos/nduru88-wq/SpecialMinds-Infotavle/contents/slideshow";
+  "https://api.github.com/repos/nduru88-wq/S.M.Infoavle-Aalborg/contents/slideshow";
 
 function startSlideshow() {
   hentSlideshowBillederFraGithub();
