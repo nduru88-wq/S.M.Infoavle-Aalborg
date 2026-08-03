@@ -1543,10 +1543,16 @@ var SLIDESHOW_API =
 
 function startSlideshow() {
   hentSlideshowBillederFraGithub();
+
+  setInterval(function() {
+    hentSlideshowBillederFraGithub();
+  }, 5 * 60 * 1000);
 }
 
 function hentSlideshowBillederFraGithub() {
-  fetch(SLIDESHOW_API)
+  fetch(SLIDESHOW_API + "?t=" + Date.now(), {
+  cache: "no-store"
+})
     .then(function(response) {
       return response.json();
     })
