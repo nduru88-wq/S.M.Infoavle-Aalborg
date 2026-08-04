@@ -955,7 +955,11 @@ function visUge() {
 
 function stopAutomatiskDagScroll() {
   dagScrollTimere.forEach(function(timer) {
-    clearTimeout(timer);
+    if (timer && typeof timer.stop === "function") {
+      timer.stop();
+    } else {
+      clearTimeout(timer);
+    }
   });
 
   dagScrollTimere = [];
@@ -972,35 +976,97 @@ function startAutomatiskDagScroll() {
     /* Ingen animation, hvis alle aktiviteter allerede kan ses. */
     if (felt.scrollHeight <= felt.clientHeight + 2) return;
 
+    /* Samme pause øverst og nederst: 3 sekunder. */
     var topPause = 3000;
-    var bundPause = 4000;
-    var trinPause = 80;
-    var trin = 1;
+    var bundPause = 3000;
+
+    /* Hvor lang tid turen ned eller op tager. */
+    var scrollVarighed = 7000;
+
+    var animationId = null;
+    var stoppet = false;
 
     function gemTimer(callback, ventetid) {
-      var timer = setTimeout(callback, ventetid);
+      var timer = setTimeout(function() {
+        if (!stoppet) {
+          callback();
+        }
+      }, ventetid);
+
       dagScrollTimere.push(timer);
     }
 
-    function scrollEtTrin() {
-      var maksScroll = felt.scrollHeight - felt.clientHeight;
-
-      /* Feltet kan være blevet ændret ved en ny indlæsning. */
-      if (!felt.isConnected || maksScroll <= 2) return;
-
-      felt.scrollTop = Math.min(felt.scrollTop + trin, maksScroll);
-
-      if (felt.scrollTop >= maksScroll - 1) {
-        gemTimer(function() {
-          felt.scrollTop = 0;
-          gemTimer(scrollEtTrin, topPause);
-        }, bundPause);
-      } else {
-        gemTimer(scrollEtTrin, trinPause);
-      }
+    /* Blød acceleration og opbremsning. */
+    function easeInOut(t) {
+      return t < 0.5
+        ? 2 * t * t
+        : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
 
-    gemTimer(scrollEtTrin, topPause);
+    function scrollTil(slutPosition, varighed, faerdig) {
+      var startPosition = felt.scrollTop;
+      var afstand = slutPosition - startPosition;
+      var startTid = null;
+
+      function animer(tidspunkt) {
+        if (stoppet || !felt.isConnected) return;
+
+        if (startTid === null) {
+          startTid = tidspunkt;
+        }
+
+        var forloebetTid = tidspunkt - startTid;
+        var fremgang = Math.min(forloebetTid / varighed, 1);
+        var bloedFremgang = easeInOut(fremgang);
+
+        felt.scrollTop = startPosition + afstand * bloedFremgang;
+
+        if (fremgang < 1) {
+          animationId = requestAnimationFrame(animer);
+        } else {
+          felt.scrollTop = slutPosition;
+          animationId = null;
+
+          if (typeof faerdig === "function") {
+            faerdig();
+          }
+        }
+      }
+
+      animationId = requestAnimationFrame(animer);
+    }
+
+    function scrollNed() {
+      var maksScroll = felt.scrollHeight - felt.clientHeight;
+
+      if (stoppet || !felt.isConnected || maksScroll <= 2) return;
+
+      scrollTil(maksScroll, scrollVarighed, function() {
+        gemTimer(scrollOp, bundPause);
+      });
+    }
+
+    function scrollOp() {
+      if (stoppet || !felt.isConnected) return;
+
+      scrollTil(0, scrollVarighed, function() {
+        gemTimer(scrollNed, topPause);
+      });
+    }
+
+    /* Sørger for at animationen også stoppes ved genindlæsning. */
+    dagScrollTimere.push({
+      stop: function() {
+        stoppet = true;
+
+        if (animationId !== null) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+      }
+    });
+
+    gemTimer(scrollNed, topPause);
   });
 }
 
