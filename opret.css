@@ -1,0 +1,285 @@
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+}
+
+.topbar {
+  background: #2f3b4d;
+  color: white;
+  padding: 16px 20px;
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.formbox {
+  width: calc(100% - 24px);
+  max-width: 760px;
+  margin: 18px auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formbox label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.formbox select,
+.formbox button,
+.formbox input,
+.formbox textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid #bbb;
+  font-family: Arial, sans-serif;
+}
+
+.formbox textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.formbox button {
+  background: #0066aa;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.kategori-rad {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.kategori-felt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kategori-rad select {
+  width: 100%;
+}
+
+#aktivitetInfo,
+#aktivitetFravaer,
+#aktivitetFast {
+  background: #f1f1f1;
+  color: black;
+  font-weight: bold;
+}
+
+.valgtKategori {
+  background: #2e9b44 !important;
+  color: white !important;
+}
+
+.repeat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.repeat-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.repeat-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.repeat-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.repeat-option input {
+  width: 22px;
+  height: 22px;
+}
+
+.hele-dagen-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.hele-dagen-row input {
+  width: 24px;
+  height: 24px;
+}
+
+#loginBox h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+}
+
+#adgangskode {
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 8px;
+}
+
+#loginStatus {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #b00000;
+}
+
+.bundlinje {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+#status {
+  flex: 1;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+}
+
+#gaaTilTavleBtn {
+  width: auto !important;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #2e9b44 !important;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#foedselsdagBtn {
+  width: auto !important;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #d93025 !important;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+}
+
+#indlaeserOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(240,240,240,0.96);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+#indlaeserOverlay.vis {
+  display: flex;
+}
+
+.indlaeserBox {
+  background: white;
+  padding: 26px 34px;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  font-size: 26px;
+  font-weight: bold;
+  color: #2f3b4d;
+}
+
+.varighed-række {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.varighed-felt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.varighed-felt select {
+  width: 100%;
+}
+
+@media(max-width:600px) {
+  .topbar {
+    font-size: 26px;
+    padding: 16px 10px;
+  }
+
+  .formbox {
+    margin: 12px auto;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .kategori-rad,
+  .bundlinje {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .repeat-options {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .repeat-option {
+    flex: 1;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  #gaaTilTavleBtn,
+  #foedselsdagBtn {
+    width: 100% !important;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
