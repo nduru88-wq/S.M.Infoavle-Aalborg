@@ -30,6 +30,7 @@ var FRAVAER = [
   "Fri",
   "Syg",
   "Ude af huset"
+  "Møder senere"
 ];
 
 /* Heldag vælger automatisk "Hele dagen" og skjuler tidsvalg */
@@ -1235,21 +1236,25 @@ var raekke2 = PERSONER.slice(5, 10);
     var erRod = false;
 
         if (fravaer) {
-      label = fravaer.aktivitet;
+  label = fravaer.aktivitet;
 
-      if (label === "Arbejder hjemme") {
-        label = "Arb. hjemme";
-      }
+  if (label === "Arbejder hjemme") {
+    label = "Arb. hjemme";
+  }
 
-      if (label === "Ude af huset") {
-        label = "Ude";
-      }
+  if (label === "Ude af huset") {
+    label = "Ude";
+  }
 
-      erRod = true;
-    } else if (aktivStatus) {
-      label = aktivStatus.aktivitet;
-      erRod = false;
-    }
+  if (label === "Møder senere") {
+    label = "Senere";
+  }
+
+  erRod = true;
+} else if (aktivStatus) {
+  label = aktivStatus.aktivitet;
+  erRod = false;
+}
 
     var div = document.createElement("div");
 
