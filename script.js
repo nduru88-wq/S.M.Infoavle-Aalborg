@@ -28,7 +28,8 @@ var FRAVAER = [
   "Arbejder hjemme",
   "Ferie",
   "Fri",
-  "Syg"
+  "Syg",
+  "Ude af huset"
 ];
 
 /* Heldag vælger automatisk "Hele dagen" og skjuler tidsvalg */
@@ -36,7 +37,8 @@ var HELDAG_AKTIVITETER = [
   "Arbejder hjemme",
   "Ferie",
   "Fri",
-  "Syg"
+  "Syg",
+  "Ude af huset"
 ];
 
 var PERSON_BILLEDER = {
@@ -1232,11 +1234,15 @@ var raekke2 = PERSONER.slice(5, 10);
     var label = "";
     var erRod = false;
 
-    if (fravaer) {
+        if (fravaer) {
       label = fravaer.aktivitet;
 
       if (label === "Arbejder hjemme") {
         label = "Arb. hjemme";
+      }
+
+      if (label === "Ude af huset") {
+        label = "Ude";
       }
 
       erRod = true;
