@@ -1,7 +1,7 @@
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxCbzb_VfTlnmdCwIZYdfw140IvNZuPNeNNTXIGV9DLyPoSWp6tNtg3mqqEfVKLfptk/exec";
 
-const OPRET_KODE = "12345678";
+const OPRET_KODE = "1234";
 
 let valgtGentagelse = "ingen";
 let AKTIVITET_ID = new URLSearchParams(window.location.search).get("id") || "";
