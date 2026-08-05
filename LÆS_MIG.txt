@@ -1,0 +1,45 @@
+Filer i pakken
+===============
+index.html
+script.js
+style.css
+opret.html
+opret.js
+opret.css
+
+Upload/erstat disse filer i hovedmappen i GitHub-repositoriet.
+
+Mobilvisning:
+- Knappen "Gå til tavle" åbner index.html?mobil=1
+- Mobilvisningen viser kun den aktuelle dag.
+- Den almindelige index.html uden ?mobil=1 viser fortsat hele infotavlen.
+
+Vigtige rettelser:
+- Dagligt/Ugentligt står på samme linje på mobil.
+- Tidspunkt er ændret til Starttidspunkt.
+- PIN er 1234 og bruger numerisk tastatur på iPhone.
+- Ude af huset og Møder senere ligger under Fravær.
+- Møder senere er ikke en heldagsaktivitet.
+- Fravær vises øverst på tavlen.
+- Mobilvisningen kan rulles naturligt med fingeren.
+
+
+Ny swipe-funktion
+=================
+- I mobilvisningen kan du swipe mod venstre for næste dag.
+- Swipe mod højre viser forrige dag.
+- Den blå topbjælke viser: ← Swipe for andre dage →
+- Den grønne dagsbjælke viser fortsat den valgte ugedag og dato.
+- Funktionen er kun aktiv i index.html?mobil=1.
+
+
+Zoom er nu deaktiveret på både opret-siden og mobilvisningen af tavlen via viewport-indstillinger.
+
+Glidende dagsskift
+==================
+- Ved swipe glider den aktuelle dag ud til siden.
+- Den nye dag glider ind fra den modsatte side.
+- Swipe mod venstre viser næste dag.
+- Swipe mod højre viser forrige dag.
+- Hurtige gentagne swipe ignoreres kortvarigt, mens animationen kører.
+- Den almindelige storskærmsvisning påvirkes ikke.
