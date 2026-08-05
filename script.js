@@ -918,11 +918,11 @@ function visUge() {
   if (aErFoedselsdag && !bErFoedselsdag) return -1;
   if (!aErFoedselsdag && bErFoedselsdag) return 1;
 
-  var aErFravaer = erFravaer(a.aktivitet) || a.aktivitet === "Ude af huset";
-  var bErFravaer = erFravaer(b.aktivitet) || b.aktivitet === "Ude af huset";
+    var aErFravaer = erFravaer(a.aktivitet);
+    var bErFravaer = erFravaer(b.aktivitet);
 
-  if (aErFravaer && !bErFravaer) return 1;
-  if (!aErFravaer && bErFravaer) return -1;
+    if (aErFravaer && !bErFravaer) return -1;
+    if (!aErFravaer && bErFravaer) return 1;
 
   return String(a.tidspunkt || "").localeCompare(String(b.tidspunkt || ""));
 });
