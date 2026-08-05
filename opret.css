@@ -258,11 +258,30 @@ body {
   }
 
   .kategori-rad,
-  .repeat-options,
   .bundlinje {
     flex-direction: column;
     align-items: stretch;
   }
+
+  .repeat-options {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .repeat-option {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  #gaaTilTavleBtn,
+  #foedselsdagBtn {
+    width: 100% !important;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
 
   #gaaTilTavleBtn,
   #foedselsdagBtn {
