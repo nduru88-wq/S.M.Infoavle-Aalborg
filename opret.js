@@ -180,7 +180,7 @@ function saetAktivitetIGruppe(aktivitet) {
 
   if (!aktivitet) return;
 
-  const fravaer = ["Arbejder hjemme", "Ferie", "Fri", "Syg"];
+  const fravaer = ["Arbejder hjemme", "Ferie", "Fri", "Syg", "Ude af huset"];
 
   const fast = [
     "Aktivitets café",
