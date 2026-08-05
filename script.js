@@ -29,7 +29,7 @@ var FRAVAER = [
   "Ferie",
   "Fri",
   "Syg",
-  "Ude af huset,"
+  "Ude af huset",
   "Møder senere"
 ];
 
