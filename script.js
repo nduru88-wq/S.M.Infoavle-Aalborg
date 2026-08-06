@@ -1790,23 +1790,26 @@ function startSlideshow() {
 
   setInterval(function() {
     hentSlideshowBillederFraGithub();
-  }, 5 * 60 * 1000);
+  }, 30 * 60 * 1000);
 }
 
 function hentSlideshowBillederFraGithub() {
   fetch(SLIDESHOW_API + "?t=" + Date.now(), {
-  cache: "no-store"
-})
+    cache: "no-store"
+  })
     .then(function(response) {
+      if (!response.ok) {
+        throw new Error("GitHub svarede med status " + response.status);
+      }
+
       return response.json();
     })
     .then(function(files) {
       if (!Array.isArray(files)) {
-        console.log("Ingen slideshow-billeder fundet:", files);
-        return;
+        throw new Error("GitHub returnerede ikke en billedliste");
       }
 
-      slideshowBilleder = files
+      var nyeBilleder = files
         .filter(function(file) {
           return file.type === "file" &&
             /\.(png|jpg|jpeg|webp)$/i.test(file.name);
@@ -1815,7 +1818,16 @@ function hentSlideshowBillederFraGithub() {
           return file.download_url;
         });
 
-      if (slideshowBilleder.length === 0) return;
+      if (nyeBilleder.length === 0) {
+        throw new Error("Ingen slideshow-billeder fundet");
+      }
+
+      slideshowBilleder = nyeBilleder;
+
+      localStorage.setItem(
+        "sm_slideshow_billeder",
+        JSON.stringify(slideshowBilleder)
+      );
 
       slideshowIndex = 0;
       visSlideshowBillede();
@@ -1825,12 +1837,49 @@ function hentSlideshowBillederFraGithub() {
       }
 
       slideshowTimer = setInterval(function() {
-        slideshowIndex = (slideshowIndex + 1) % slideshowBilleder.length;
+        slideshowIndex =
+          (slideshowIndex + 1) % slideshowBilleder.length;
+
         visSlideshowBillede();
       }, 5000);
     })
     .catch(function(error) {
       console.log("Kunne ikke hente slideshow-billeder:", error);
+
+      var gemteBilleder =
+        localStorage.getItem("sm_slideshow_billeder");
+
+      if (!gemteBilleder) return;
+
+      try {
+        slideshowBilleder = JSON.parse(gemteBilleder);
+
+        if (
+          !Array.isArray(slideshowBilleder) ||
+          slideshowBilleder.length === 0
+        ) {
+          return;
+        }
+
+        slideshowIndex = 0;
+        visSlideshowBillede();
+
+        if (slideshowTimer) {
+          clearInterval(slideshowTimer);
+        }
+
+        slideshowTimer = setInterval(function() {
+          slideshowIndex =
+            (slideshowIndex + 1) % slideshowBilleder.length;
+
+          visSlideshowBillede();
+        }, 5000);
+      } catch (fejl) {
+        console.log(
+          "Kunne ikke bruge gemte slideshow-billeder:",
+          fejl
+        );
+      }
     });
 }
 
