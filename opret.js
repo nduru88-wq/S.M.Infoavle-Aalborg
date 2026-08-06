@@ -399,5 +399,11 @@ function indlaesAktivitetTilRedigering(id) {
 }
 
 function gaaDirekteTilTavle() {
-  window.location.href = "index.html?mobil=1";
+  const erMobil = window.matchMedia("(max-width: 768px)").matches;
+
+  if (erMobil) {
+    window.open("index.html?mobil=1", "_blank");
+  } else {
+    window.open("index.html", "_blank");
+  }
 }
