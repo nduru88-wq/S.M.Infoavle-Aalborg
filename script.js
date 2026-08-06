@@ -1364,8 +1364,16 @@ var raekke2 = PERSONER.slice(5, 10);
     });
 
     var fravaer = aktuelle.find(function(a) {
-      return erFravaer(a.aktivitet);
-    });
+  if (!erFravaer(a.aktivitet)) {
+    return false;
+  }
+
+  if (a.aktivitet === "Møder senere") {
+    return tidspunktErNu(a);
+  }
+
+  return true;
+});
 
     var aktivStatus = aktuelle.find(function(a) {
       return statusSkalVisesNu(a);
