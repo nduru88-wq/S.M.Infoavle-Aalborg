@@ -1386,6 +1386,14 @@ var raekke2 = PERSONER.slice(5, 10);
     return tidspunktErNu(a);
   }
 
+  if (a.aktivitet === "Ude af huset") {
+    if (a.varighed === "Hele dagen") {
+      return true;
+    }
+
+    return tidspunktErNu(a);
+  }
+
   return true;
 });
 
