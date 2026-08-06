@@ -284,13 +284,12 @@ function opdaterHeleDagenEfterAktivitet() {
   const aktivitet = hentValgtAktivitet();
 
   const heldagsAktiviteter = [
-    "Arbejder hjemme",
-    "Ferie",
-    "Fri",
-    "Syg",
-    "Ude af huset",
-    "Fødselsdag"
-  ];
+  "Arbejder hjemme",
+  "Ferie",
+  "Fri",
+  "Syg",
+  "Fødselsdag"
+];
 
   const skalVaereHeldag = heldagsAktiviteter.includes(aktivitet);
 
