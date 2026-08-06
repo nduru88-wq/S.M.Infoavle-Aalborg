@@ -1053,13 +1053,27 @@ function visUge() {
   if (aErFoedselsdag && !bErFoedselsdag) return -1;
   if (!aErFoedselsdag && bErFoedselsdag) return 1;
 
-    var aErFravaer = erFravaer(a.aktivitet);
-    var bErFravaer = erFravaer(b.aktivitet);
+    function skalLiggeSomFravaerOeverst(x) {
+  var harTidsrum =
+    x.tidspunkt &&
+    x.varighed &&
+    x.varighed !== "Hele dagen" &&
+    !isNaN(Number(x.varighed));
 
-    if (aErFravaer && !bErFravaer) return -1;
-    if (!aErFravaer && bErFravaer) return 1;
+  if (x.aktivitet === "Ude af huset" && harTidsrum) {
+    return false;
+  }
 
-  return String(a.tidspunkt || "").localeCompare(String(b.tidspunkt || ""));
+  return erFravaer(x.aktivitet);
+}
+
+var aErFravaer = skalLiggeSomFravaerOeverst(a);
+var bErFravaer = skalLiggeSomFravaerOeverst(b);
+
+if (aErFravaer && !bErFravaer) return -1;
+if (!aErFravaer && bErFravaer) return 1;
+
+return String(a.tidspunkt || "").localeCompare(String(b.tidspunkt || ""));
 });
     
     /* Aktiviteterne placeres i deres egen beholder.
