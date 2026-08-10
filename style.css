@@ -1335,4 +1335,45 @@ body.mobil-visning .day.current-day h2 {
   background: #00aaa6;
   color: #fff;
 }
-\n\n/* =========================================================\n   MOBIL: TILBAGE TIL OPRET\n   Vises kun i éndagsvisningen.\n   ========================================================= */\n.mobil-opret-tilbage {\n  display: none;\n}\n\nbody.mobil-visning .mobil-opret-tilbage {\n  display: inline-flex;\n  position: absolute;\n  left: 10px;\n  top: 50%;\n  transform: translateY(-50%);\n  align-items: center;\n  justify-content: center;\n  min-height: 34px;\n  padding: 0 11px;\n  border-radius: 10px;\n  background: rgba(255,255,255,0.14);\n  border: 1px solid rgba(255,255,255,0.32);\n  color: white;\n  text-decoration: none;\n  font-size: 15px;\n  font-weight: 800;\n  line-height: 1;\n  z-index: 120;\n  box-sizing: border-box;\n  -webkit-tap-highlight-color: transparent;\n}\n\nbody.mobil-visning .mobil-opret-tilbage:active {\n  background: rgba(255,255,255,0.24);\n}\n\nbody.mobil-visning #ugeTitel {\n  padding-left: 72px;\n  padding-right: 72px;\n  box-sizing: border-box;\n}\n
+
+
+/* =========================================================
+   MOBIL: TILBAGE TIL OPRET
+   Vises kun i éndagsvisningen.
+   ========================================================= */
+.mobil-opret-tilbage {
+  display: none;
+}
+
+body.mobil-visning .mobil-opret-tilbage {
+  display: inline-flex;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 11px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.32);
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  z-index: 120;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.mobil-visning .mobil-opret-tilbage:active {
+  background: rgba(255,255,255,0.24);
+}
+
+body.mobil-visning #ugeTitel {
+  padding-left: 72px;
+  padding-right: 72px;
+  box-sizing: border-box;
+}
