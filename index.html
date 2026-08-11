@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <title>Infotavle</title>
+
+  <link rel="manifest" href="pwa/manifest-infotavle.json">
+  <meta name="theme-color" content="#2f3b4d">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Infotavle">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="pwa/Infotavle-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="pwa/Infotavle-512.png">
+  <link rel="apple-touch-icon" href="pwa/Infotavle-192.png">
+
+  <link rel="stylesheet" href="style.css?v=20260811-mobillaas1">
+</head>
+
+<body class="loading">
+
+  <div id="dataLoaderOverlay">
+    <div class="dataLoaderBox">Henter infotavle data...</div>
+  </div>
+
+  <div class="topbar">
+
+    <button class="mobil-slideshow-knap" type="button" onclick="aabnMobilSlideshow()" aria-label="Åbn slideshow">Slideshow</button>
+    <a class="mobil-opret-tilbage" href="opret.html" aria-label="Opret">Opret</a>
+
+    <div class="topbar-logoer">
+      <img src="logo/specialmindslogo.png" alt="">
+      <img src="logo/specialmindslogo.png" alt="">
+      <img src="logo/specialmindslogo.png" alt="">
+    </div>
+
+    <button class="uge-pil" onclick="skiftUge(-1)">&#8592;</button>
+
+    <span id="ugeTitel">SPECIALMINDS INFOTAVLE</span>
+
+    <button class="uge-pil" onclick="skiftUge(1)">&#8594;</button>
+
+    <div class="topbar-logoer">
+      <img src="logo/specialmindslogo.png" alt="">
+      <img src="logo/specialmindslogo.png" alt="">
+      <img src="logo/specialmindslogo.png" alt="">
+    </div>
+
+    <div id="ur" class="topbar-ur" title="Aktuel tid">
+      <span id="urTid">kl. --.--</span>
+      <span id="aktuelDato"></span>
+    </div>
+
+  </div>
+
+  <div class="week" id="week"></div>
+
+  <div id="mobilSlideshowOverlay" class="mobil-slideshow-overlay" aria-hidden="true">
+    <button class="mobil-slideshow-luk" type="button" onclick="lukMobilSlideshow()" aria-label="Luk slideshow">×</button>
+    <div class="mobil-slideshow-billede-wrap">
+      <img id="mobilSlideshowImg" alt="Slideshow">
+    </div>
+  </div>
+
+  <div class="bottom-panel">
+
+    <div class="bottom-box">
+      <h3>Næste uge:</h3>
+      <div id="miniNaesteUge" class="mini-week"></div>
+    </div>
+
+    <div class="bottom-box">
+      <h3 onclick="skiftPersonaleBilleder(); return false;" style="cursor:pointer; user-select:none;">
+        Personale
+      </h3>
+
+      <div class="personale-del">
+        <div class="staff" id="staff"></div>
+      </div>
+    </div>
+
+    <div class="bottom-box">
+      <h3>Hverdagen hos Special Minds</h3>
+      <div class="slideshow">
+        <img id="slideshowImg" alt="Slideshow">
+      </div>
+    </div>
+
+  </div>
+
+
+  <script src="script.js?v=20260811-swipe-old1"></script>
+
+
+  <script>
+    (function () {
+      function synkMobilSlideshow() {
+        var original = document.getElementById("slideshowImg");
+        var mobil = document.getElementById("mobilSlideshowImg");
+        if (!original || !mobil) return;
+
+        var src = original.currentSrc || original.src || "";
+        if (src && mobil.src !== src) {
+          mobil.src = src;
+        }
+      }
+
+      window.aabnMobilSlideshow = function () {
+        var overlay = document.getElementById("mobilSlideshowOverlay");
+        if (!overlay) return;
+        synkMobilSlideshow();
+        overlay.classList.add("vis");
+        overlay.setAttribute("aria-hidden", "false");
+      };
+
+      window.lukMobilSlideshow = function () {
+        var overlay = document.getElementById("mobilSlideshowOverlay");
+        if (!overlay) return;
+        overlay.classList.remove("vis");
+        overlay.setAttribute("aria-hidden", "true");
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var original = document.getElementById("slideshowImg");
+        if (original) {
+          synkMobilSlideshow();
+          new MutationObserver(synkMobilSlideshow).observe(original, {
+            attributes: true,
+            attributeFilter: ["src"]
+          });
+          original.addEventListener("load", synkMobilSlideshow);
+        }
+
+        var overlay = document.getElementById("mobilSlideshowOverlay");
+        if (overlay) {
+          overlay.addEventListener("click", function (e) {
+            if (e.target === overlay) window.lukMobilSlideshow();
+          });
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
