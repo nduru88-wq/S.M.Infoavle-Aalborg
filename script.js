@@ -48,7 +48,7 @@ var PERSON_BILLEDER = {
   Anja: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/anja.jpg",
   Bettina: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/bettina.jpg",
   Ditte: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/ditte.jpg",
-  Dennis: "personale/mand-silhuet.png",
+  Dennis: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/dennis.jpg",
   Michael: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/michael.jpg",
   Peter: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/peter.jpg",
   Sanne: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/sanne.jpg",
