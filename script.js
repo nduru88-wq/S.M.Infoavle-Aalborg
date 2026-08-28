@@ -6,7 +6,7 @@ var PERSONER = [
   "Peter",
   "Sanne",
   "Frederik",
-  "Jan",
+  "Dennis",
   "Janni",
   "Pernille"
 ];
@@ -45,7 +45,7 @@ var PERSON_BILLEDER = {
   Peter: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/peter.jpg",
   Sanne: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/sanne.jpg",
   Frederik: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/frederik.jpg",
-  Jan: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/jan.jpg",
+  Dennis: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/dennis.jpg",
   Janni: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/janni.jpg",
   Pernille: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/pernille.jpg"
 };
