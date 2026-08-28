@@ -1273,7 +1273,7 @@ function visPersonale() {
       label = fravaer.aktivitet;
 
       if (label === "Arbejder hjemme") {
-        label = "Arb. hjemme";
+        label = "Arb. hjem";
       }
 
       erRod = true;
