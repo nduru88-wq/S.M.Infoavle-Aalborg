@@ -1959,3 +1959,34 @@ body.slideshow-viewer-aaben {
   #pcSlideshow { cursor: default; }
   .slideshow-viewer { display: none !important; }
 }
+
+/* =========================================================
+   RETTELSE 28-08-2026: Responsiv afstand mellem personale
+   Fordeler 5 personer jævnt over hele rækken og tilpasser
+   automatisk afstand ved skærmstørrelse og browser-zoom.
+   ========================================================= */
+.personale-del .staff {
+  padding-left: clamp(4px, 0.7vw, 12px);
+  padding-right: clamp(4px, 0.7vw, 12px);
+}
+
+.personale-del .staff-row,
+.personale-del .staff-row-bottom,
+.personale-del .staff-row-top {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  column-gap: clamp(10px, 1.25vw, 24px);
+  row-gap: 6px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.personale-del .person {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
+.personale-del .person-img-wrap {
+  width: clamp(38px, 4.2vw, 66px);
+  height: clamp(38px, 4.2vw, 66px);
+}
