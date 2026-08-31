@@ -507,6 +507,7 @@ function opdaterEfterAktivitet() {
 
 function skalViseNote(aktivitet) {
   return [
+    "Info",
     "Aktivitets café",
     "Friday Minds",
     "Fællespause",
