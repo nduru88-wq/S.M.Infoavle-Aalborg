@@ -83,10 +83,10 @@
       </div>
     </div>
 
-    <div class="repeat-box">
-      <div class="repeat-title">Gentag aktivitet</div>
+    <div class="repeat-box" style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+      <div class="repeat-title" style="margin:0;">Gentag aktivitet</div>
 
-      <div class="repeat-options">
+      <div class="repeat-options" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
         <label class="repeat-option">
           Dagligt
           <input type="checkbox" id="gentagDagligt" onchange="vaelgGentagelse('dagligt')">
@@ -95,6 +95,11 @@
         <label class="repeat-option">
           Ugentligt
           <input type="checkbox" id="gentagUgentligt" onchange="vaelgGentagelse('ugentligt')">
+        </label>
+
+        <label class="repeat-option">
+          Hver 14. dag
+          <input type="checkbox" id="gentag14Dage" onchange="vaelgGentagelse('14dage')">
         </label>
       </div>
     </div>
@@ -204,7 +209,6 @@
 <div class="varighed-række">
 
   <div class="varighed-felt">
-    <label for="varighedTimer">Timer</label>
     <select id="varighedTimer" style="text-align:center; text-align-last:center;">
       <option value="0">0 timer</option>
       <option value="1" selected>1 time</option>
@@ -217,7 +221,6 @@
   </div>
 
   <div class="varighed-felt">
-    <label for="varighedMinutter">Minutter</label>
     <select id="varighedMinutter" style="text-align:center; text-align-last:center;">
       <option value="0" selected>00 min</option>
       <option value="15">15 min</option>
