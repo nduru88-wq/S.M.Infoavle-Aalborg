@@ -159,25 +159,45 @@
 
     <input type="hidden" id="aktivitet">
 
-    <label>Tidspunkt</label>
+    <label>Starttidspunkt</label>
 
-    <select id="tidspunkt">
-      <option>08:00</option>
-      <option>08:30</option>
-      <option>09:00</option>
-      <option>09:30</option>
-      <option>10:00</option>
-      <option>10:30</option>
-      <option>11:00</option>
-      <option>11:30</option>
-      <option>12:00</option>
-      <option>12:30</option>
-      <option>13:00</option>
-      <option>13:30</option>
-      <option>14:00</option>
-      <option>14:30</option>
-      <option>15:00</option>
-    </select>
+    <div class="varighed-række starttid-række">
+      <div class="varighed-felt">
+        <label for="startTimer">Timer</label>
+        <select id="startTimer" style="text-align:center; text-align-last:center;" onchange="opdaterStarttidspunkt()">
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+      <div class="varighed-felt">
+        <label for="startMinutter">Minutter</label>
+        <select id="startMinutter" style="text-align:center; text-align-last:center;" onchange="opdaterStarttidspunkt()">
+          <option value="00">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+      </div>
+    </div>
+
+    <input type="hidden" id="tidspunkt" value="08:00">
+
+    <script>
+      function opdaterStarttidspunkt() {
+        const timer = document.getElementById("startTimer");
+        const minutter = document.getElementById("startMinutter");
+        const tidspunkt = document.getElementById("tidspunkt");
+        if (timer && minutter && tidspunkt) {
+          tidspunkt.value = timer.value + ":" + minutter.value;
+        }
+      }
+    </script>
 
     <label>Varighed</label>
 
@@ -185,7 +205,7 @@
 
   <div class="varighed-felt">
     <label for="varighedTimer">Timer</label>
-    <select id="varighedTimer">
+    <select id="varighedTimer" style="text-align:center; text-align-last:center;">
       <option value="0">0 timer</option>
       <option value="1" selected>1 time</option>
       <option value="2">2 timer</option>
@@ -198,7 +218,7 @@
 
   <div class="varighed-felt">
     <label for="varighedMinutter">Minutter</label>
-    <select id="varighedMinutter">
+    <select id="varighedMinutter" style="text-align:center; text-align-last:center;">
       <option value="0" selected>00 min</option>
       <option value="15">15 min</option>
       <option value="30">30 min</option>
