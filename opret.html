@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Special Minds Opret</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <link rel="manifest" href="pwa/manifest-opret.json">
+  <meta name="theme-color" content="#2f3b4d">
+
+  <link rel="apple-touch-icon"
+        href="pwa/Opret-192.png">
+
+  <link rel="stylesheet" href="opret.css?v=20260829-sendt-slet">
+
+  <style>
+    /* Kompakt mobil-layout */
+    .kategori-rad {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: stretch !important;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .kategori-felt {
+      flex: 1 1 0 !important;
+      width: 0 !important;
+      min-width: 0 !important;
+    }
+
+    .kategori-felt select {
+      width: 100% !important;
+      min-width: 0;
+      box-sizing: border-box;
+      text-align: center;
+      text-align-last: center;
+    }
+
+    /* Dato skal altid stå på én linje */
+    #datoKnap {
+      white-space: nowrap !important;
+      line-height: 1.2;
+    }
+
+    /* Starttidspunkt + Heldag på samme linje */
+    .starttid-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .starttid-header > label:first-child {
+      margin: 0;
+    }
+
+    .starttid-header .hele-dagen-row {
+      width: auto !important;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    /* Nederste knapper: Fødselsdag 1/3 + Gå til tavle 2/3 */
+    .bund-knapper {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #foedselsdagBtn {
+      flex: 1 1 0;
+      width: auto;
+      min-width: 0;
+      height: 44px;
+      padding: 0;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    #gaaTilTavleBtn {
+      flex: 2 1 0;
+      width: auto;
+      min-width: 0;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    #status {
+      width: 100%;
+    }
+
+    @media (max-width: 700px) {
+      .kategori-rad {
+        gap: 5px;
+      }
+
+      .kategori-felt select {
+        padding-left: 4px;
+        padding-right: 4px;
+        font-size: 14px;
+      }
+
+      #datoKnap {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div id="indlaeserOverlay">
+    <div class="indlaeserBox">Indlæser aktivitet...</div>
+  </div>
+
+  <div id="loginBox" class="formbox">
+    <h2>Adgang kræves</h2>
+
+    <label>Kode</label>
+
+    <input
+      type="password"
+      id="adgangskode"
+      maxlength="8"
+      inputmode="numeric">
+
+    <button type="button" id="loginKnap" onclick="logInd()">Log ind</button>
+
+    <div id="loginStatus"></div>
+  </div>
+
+  <div class="formbox" id="opretForm" style="display:none;">
+
+    <label for="datoKnap">Dato</label>
+
+    <div class="dato-vaelger">
+      <input type="hidden" id="dato">
+
+      <button
+        type="button"
+        id="datoKnap"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        onclick="toggleKalender()">
+        Vælg dato
+      </button>
+
+      <div
+        id="kalenderPopup"
+        class="kalender-popup"
+        role="dialog"
+        aria-label="Vælg dato">
+
+        <div class="kalender-genveje">
+          <button type="button" onclick="vaelgGenvejsDato(0)">I dag</button>
+          <button type="button" onclick="vaelgGenvejsDato(1)">I morgen</button>
+        </div>
+
+        <div class="kalender-top">
+          <button type="button" aria-label="Forrige måned" onclick="skiftKalenderMaaned(-1)">‹</button>
+          <div id="kalenderMaanedTitel"></div>
+          <button type="button" aria-label="Næste måned" onclick="skiftKalenderMaaned(1)">›</button>
+        </div>
+
+        <div class="kalender-ugedage" aria-hidden="true">
+          <div>Man</div><div>Tir</div><div>Ons</div><div>Tor</div><div>Fre</div><div>Lør</div><div>Søn</div>
+        </div>
+
+        <div id="kalenderDage" class="kalender-dage"></div>
+      </div>
+    </div>
+
+    <div class="repeat-menu-wrap" style="position:relative;">
+      <button type="button" id="gentagKnap" aria-expanded="false"
+              onclick="toggleGentagMenu()" style="width:100%; text-align:center;">
+        Gentag aktivitet ▾
+      </button>
+
+      <div id="gentagMenu"
+           style="display:none; position:absolute; left:0; right:0; z-index:50;
+                  background:white; border:1px solid #c8c8c8; border-radius:8px;
+                  padding:8px; box-shadow:0 4px 12px rgba(0,0,0,.15);">
+        <button type="button" onclick="vaelgGentagelseMenu('ingen')" style="width:100%; margin:2px 0;">Ingen gentagelse</button>
+        <button type="button" onclick="vaelgGentagelseMenu('dagligt')" style="width:100%; margin:2px 0;">Dagligt</button>
+        <button type="button" onclick="vaelgGentagelseMenu('ugentligt')" style="width:100%; margin:2px 0;">Ugentligt</button>
+        <button type="button" onclick="vaelgGentagelseMenu('14dage')" style="width:100%; margin:2px 0;">Hver 14. dag</button>
+      </div>
+
+      <input type="checkbox" id="gentagDagligt" hidden>
+      <input type="checkbox" id="gentagUgentligt" hidden>
+      <input type="checkbox" id="gentag14Dage" hidden>
+    </div>
+
+    <label>Person</label>
+
+    <select id="person">
+      <option>Ingen</option>
+      <option>Anja</option>
+      <option>Bettina</option>
+      <option>Ditte</option>
+      <option>Frederik</option>
+      <option>Jan</option>
+      <option>Janni</option>
+      <option>Michael</option>
+      <option>Pernille</option>
+      <option>Peter</option>
+      <option>Sanne</option>
+    </select>
+
+    <label>Vælg kategori</label>
+
+    <div class="kategori-rad">
+
+  <div class="kategori-felt">
+  <select id="aktivitetInfo" onchange="vaelgAktivitetFraGruppe('info')">
+    <option value="">Blandet</option>
+    <option>Info</option>
+    <option>Besøg</option>
+    <option>Faglig sparring</option>
+    <option>Møde</option>
+    <option>Møder senere</option>
+    <option>Rundvisning</option>
+    <option>Ude af huset</option>
+    <option>Velkommen til</option>
+  </select>
+</div>
+
+  <div class="kategori-felt">
+    <select id="aktivitetFravaer" onchange="vaelgAktivitetFraGruppe('fravaer')">
+      <option value="">Fravær</option>
+      <option>Arbejder hjemme</option>
+      <option>Ferie</option>
+      <option>Fri</option>
+      <option>Syg</option>
+    </select>
+  </div>
+
+  <div class="kategori-felt">
+    <select id="aktivitetFast" onchange="vaelgAktivitetFraGruppe('fast')">
+      <option value="">Aktivitet</option>
+      <option>Aktivitets café</option>
+      <option>Friday Minds</option>
+      <option>Fællespause</option>
+      <option>KREA</option>
+      <option>Praktisk værksted</option>
+      <option>Undervisning</option>
+    </select>
+  </div>
+
+</div>
+
+    <input type="hidden" id="aktivitet">
+
+    <div class="starttid-header">
+      <label>Starttidspunkt</label>
+      <label class="hele-dagen-row">
+        Heldag
+        <input type="checkbox" id="heleDagen" onchange="toggleHeleDagen()">
+      </label>
+    </div>
+
+    <div class="varighed-række starttid-række">
+      <div class="varighed-felt">
+        <label for="startTimer">Timer</label>
+        <select id="startTimer" style="text-align:center; text-align-last:center;" onchange="opdaterStarttidspunkt()">
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+      <div class="varighed-felt">
+        <label for="startMinutter">Minutter</label>
+        <select id="startMinutter" style="text-align:center; text-align-last:center;" onchange="opdaterStarttidspunkt()">
+          <option value="00">00</option>
+          <option value="15">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+        </select>
+      </div>
+    </div>
+
+    <input type="hidden" id="tidspunkt" value="08:00">
+
+    <script>
+      function opdaterStarttidspunkt() {
+        const timer = document.getElementById("startTimer");
+        const minutter = document.getElementById("startMinutter");
+        const tidspunkt = document.getElementById("tidspunkt");
+        if (timer && minutter && tidspunkt) {
+          tidspunkt.value = timer.value + ":" + minutter.value;
+        }
+      }
+    </script>
+
+    <label>Varighed</label>
+
+<div class="varighed-række">
+
+  <div class="varighed-felt">
+    <select id="varighedTimer" style="text-align:center; text-align-last:center;">
+      <option value="0">0 timer</option>
+      <option value="1" selected>1 time</option>
+      <option value="2">2 timer</option>
+      <option value="3">3 timer</option>
+      <option value="4">4 timer</option>
+      <option value="5">5 timer</option>
+      <option value="6">6 timer</option>
+    </select>
+  </div>
+
+  <div class="varighed-felt">
+    <select id="varighedMinutter" style="text-align:center; text-align-last:center;">
+      <option value="0" selected>00 min</option>
+      <option value="15">15 min</option>
+      <option value="30">30 min</option>
+      <option value="45">45 min</option>
+    </select>
+  </div>
+
+</div>
+
+    <div id="noteBox">
+      <label>Note</label>
+      <textarea id="note" rows="3" placeholder="Skriv evt. note her"></textarea>
+    </div>
+
+    <button type="button" id="sendTilTavleKnap" onclick="sendTilTavle()">Send til tavle</button>
+
+    <div class="bund-knapper">
+      <a id="foedselsdagBtn"
+         href="foedselsdag.html"
+         aria-label="Opret fødselsdag"
+         title="Opret fødselsdag">🇩🇰</a>
+
+      <button type="button" id="gaaTilTavleBtn" onclick="gaaDirekteTilTavle()">
+        Gå til tavle
+      </button>
+    </div>
+
+    <div id="status"></div>
+
+  </div>
+
+  <script src="opret.js?v=20260829-sendt-slet"></script>
+
+</body>
+</html>
