@@ -1,6 +1,9 @@
 const API_URL =
   "https://script.google.com/macros/s/AKfycbySJ7n3fUmVg4dtVDKxhfYsIhh8S5REFfCeoT9F1H8g5fY0PSGBEtx4Y95vF_8Htxrh/exec";
 
+// LOGIN-KONTAKT: false = intet password, true = login som før
+const LOGIN_ENABLED = false;
+
 
 let valgtGentagelse = "ingen";
 let AKTIVITET_ID = new URLSearchParams(window.location.search).get("id") || "";
@@ -67,7 +70,7 @@ function fjernAdminToken() {
 function apiKald(params) {
   const data = Object.assign({}, params);
 
-  if (data.action !== "adminLogin") {
+  if (LOGIN_ENABLED && data.action !== "adminLogin") {
     data.token = hentAdminToken();
   }
 
@@ -86,6 +89,16 @@ function apiKald(params) {
 window.addEventListener("load", function() {
   initKalender();
   opdaterEfterAktivitet();
+
+  // Når login er slået fra, åbnes formularen straks.
+  if (!LOGIN_ENABLED) {
+    visOpret();
+
+    if (AKTIVITET_ID) {
+      indlaesAktivitetTilRedigering(AKTIVITET_ID);
+    }
+    return;
+  }
 
   const token = hentAdminToken();
 
@@ -680,7 +693,7 @@ function sendTilTavle() {
     .catch(function(err) {
       saetSendVenter(false);
 
-      if (String(err.message || "").includes("Login er udløbet")) {
+      if (LOGIN_ENABLED && String(err.message || "").includes("Login er udløbet")) {
         fjernAdminToken();
         visLogin();
       }
