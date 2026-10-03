@@ -644,12 +644,32 @@ function opdaterHeleDagenEfterAktivitet() {
 setDisabledMedOpacity("varighedMinutter", skalVaereHeldag);
 }
 
+
+function opdaterPerson2Muligheder() {
+  const person1 = val("person");
+  const person2 = $("person2");
+  if (!person2) return;
+  Array.from(person2.options).forEach(function(option) {
+    option.disabled = !!option.value && option.value === person1;
+  });
+  if (person2.value === person1) person2.value = "";
+}
+
+function toggleFlereDeltagere() {
+  const aktiv = checked("flereDeltagere");
+  const box = $("person2Box");
+  if (box) box.hidden = !aktiv;
+  if (!aktiv) setVal("person2", "");
+  else opdaterPerson2Muligheder();
+}
+
 function hentFormData() {
   const hele = checked("heleDagen");
 
   return {
     dato: val("dato"),
     person: val("person"),
+    person2: checked("flereDeltagere") ? val("person2") : "",
     aktivitet: hentValgtAktivitet(),
     tidspunkt: hele ? "08:00" : val("tidspunkt"),
     varighed: hele ? "Hele dagen" : (
@@ -668,6 +688,15 @@ function sendTilTavle() {
     return;
   }
 
+  if (checked("flereDeltagere") && !a.person2) {
+    setHtml("status", "Vælg person 2");
+    return;
+  }
+  if (a.person2 && a.person2 === a.person) {
+    setHtml("status", "Person 1 og person 2 skal være forskellige");
+    return;
+  }
+
   // Fjern tidligere status. Under indlæsningen vises teksten kun på knappen.
   setHtml("status", "");
   saetSendVenter(true);
@@ -677,6 +706,7 @@ function sendTilTavle() {
     id: AKTIVITET_ID,
     dato: a.dato,
     person: a.person,
+    person2: a.person2 || "",
     aktivitet: a.aktivitet,
     tidspunkt: a.tidspunkt,
     varighed: a.varighed,
@@ -721,6 +751,10 @@ function indlaesAktivitetTilRedigering(id) {
 
       sikrDatoISelect("dato", a.dato);
       setVal("person", a.person);
+      setChecked("flereDeltagere", !!a.person2);
+      toggleFlereDeltagere();
+      setVal("person2", a.person2 || "");
+      opdaterPerson2Muligheder();
       saetAktivitetIGruppe(a.aktivitet);
       setVal("tidspunkt", a.tidspunkt);
       if (a.tidspunkt && String(a.tidspunkt).includes(":")) {

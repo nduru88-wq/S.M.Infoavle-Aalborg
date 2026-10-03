@@ -1180,6 +1180,7 @@ function lavEventElement(a) {
   var titel = escapeHtml(lavEventTitel(a, fravaer));
   var tid = escapeHtml(lavEventTid(a, fravaer));
   var person = escapeHtml(a.person || "");
+  var person2 = escapeHtml(a.person2 || "");
   var id = escapeHtml(a.id || "");
 
   var venstreIkon = erFoedselsdag ? "🎂" : (info.ikon || " ");
@@ -1190,6 +1191,13 @@ if (erFoedselsdag) {
   hoejreIndhold = "<div class='event-person-photo event-neutral-person'>👤</div>";
 } else if (!a.person || a.person === "Ingen") {
   hoejreIndhold = "";
+ } else if (a.person2) {
+  hoejreIndhold =
+    "<div class='event-person-photos event-person-photos-two'>" +
+      "<div class='event-person-photo'><img src='" + personImg(a.person) + "'></div>" +
+      "<div class='event-person-photo event-person-photo-second'><img src='" + personImg(a.person2) + "'></div>" +
+    "</div>" +
+    "<div class='event-person-label event-person-label-two'>" + person + " og " + person2 + "</div>";
 } else {
   hoejreIndhold =
     "<div class='event-person-photo'><img src='" + personImg(a.person) + "'></div>" +
@@ -1282,8 +1290,11 @@ function visPersonale() {
 
   function lavPersonElement(person) {
     var aktuelle = aktiviteterGlobal.filter(function(a) {
-      return String(a.person).toLowerCase() === person.toLowerCase() &&
-        aktivitetSkalVisesPaaDato(a, valgtDato);
+      var personLower = person.toLowerCase();
+      var erDeltager =
+        String(a.person || "").toLowerCase() === personLower ||
+        String(a.person2 || "").toLowerCase() === personLower;
+      return erDeltager && aktivitetSkalVisesPaaDato(a, valgtDato);
     });
 
     var fravaer = aktuelle.find(function(a) {

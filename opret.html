@@ -207,19 +207,27 @@
 
     <label>Person</label>
 
-    <select id="person">
+    <select id="person" onchange="opdaterPerson2Muligheder()">
       <option>Ingen</option>
-      <option>Anja</option>
-      <option>Bettina</option>
-      <option>Ditte</option>
-      <option>Frederik</option>
-      <option>Jan</option>
-      <option>Janni</option>
-      <option>Michael</option>
-      <option>Pernille</option>
-      <option>Peter</option>
-      <option>Sanne</option>
+      <option>Anja</option><option>Bettina</option><option>Ditte</option>
+      <option>Frederik</option><option>Jan</option><option>Janni</option>
+      <option>Michael</option><option>Pernille</option><option>Peter</option><option>Sanne</option>
     </select>
+
+    <label class="flere-deltagere-row">
+      <input type="checkbox" id="flereDeltagere" onchange="toggleFlereDeltagere()">
+      Flere deltagere
+    </label>
+
+    <div id="person2Box" class="person2-box" hidden>
+      <label for="person2">Person 2</label>
+      <select id="person2">
+        <option value="">Vælg person</option>
+        <option>Anja</option><option>Bettina</option><option>Ditte</option>
+        <option>Frederik</option><option>Jan</option><option>Janni</option>
+        <option>Michael</option><option>Pernille</option><option>Peter</option><option>Sanne</option>
+      </select>
+    </div>
 
     <label>Vælg kategori</label>
 
