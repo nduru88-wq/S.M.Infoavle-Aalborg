@@ -2298,12 +2298,12 @@ body.slideshow-viewer-aaben {
 }
 
 /* ===== TO DELTAGERE PÅ AKTIVITET ===== */
-.event-person-photos { position:relative; display:flex; align-items:center; justify-content:center; height:32px; width:46px; }
+.event-person-photos { position:relative; display:flex; align-items:center; justify-content:center; height:32px; width:50px; }
 .event-person-photos-two .event-person-photo { position:absolute; }
 .event-person-photos-two .event-person-photo:first-child { left:2px; z-index:2; }
 .event-person-photos-two .event-person-photo-second { right:2px; z-index:1; }
 .event-person-label-two { max-width:92px; white-space:normal; line-height:1.05; }
-body.mobil-visning .event-person-photos { width:62px; height:46px; }
+body.mobil-visning .event-person-photos { width:72px; height:46px; }
 body.mobil-visning .event-person-photos-two .event-person-photo:first-child { left:0; }
 body.mobil-visning .event-person-photos-two .event-person-photo-second { right:0; }
 body.mobil-visning .event-person-label-two { max-width:92px; font-size:10px; }
