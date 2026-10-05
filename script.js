@@ -38,16 +38,16 @@ var HELDAG_AKTIVITETER = [
 ];
 
 var PERSON_BILLEDER = {
-  Anja: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/anja.jpg",
-  Bettina: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/bettina.jpg",
-  Ditte: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/ditte.jpg",
-  Michael: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/michael.jpg",
-  Peter: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/peter.jpg",
-  Sanne: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/sanne.jpg",
-  Frederik: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/frederik.jpg",
-  Dennis: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/dennis.jpg",
-  Janni: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/janni.jpg",
-  Pernille: "https://raw.githubusercontent.com/nduru88-wq/InfotavleSM-Billeder/main/billeder/pernille.jpg"
+  Anja: "billeder/anja.jpg",
+  Bettina: "billeder/bettina.jpg",
+  Ditte: "billeder/ditte.jpg",
+  Michael: "billeder/michael.jpg",
+  Peter: "billeder/peter.jpg",
+  Sanne: "billeder/sanne.jpg",
+  Frederik: "billeder/frederik.jpg",
+  Dennis: "billeder/dennis.jpg",
+  Janni: "billeder/janni.jpg",
+  Pernille: "billeder/pernille.jpg"
 };
 
 var AKTIVITETS_INFO = {
@@ -94,8 +94,6 @@ var rValgtGentagelse = "ingen";
 var redigerAktivitetId = null;
 var redigerForekomstDato = new URLSearchParams(window.location.search).get("forekomstDato") || "";
 
-var brugTegnedeBilleder = false;
-var personaleKlik = 0;
 
 
 /***** SMÅ HJÆLPEFUNKTIONER *****/
@@ -180,23 +178,7 @@ function setDisabledMedOpacity(id, disabled) {
 /***** PERSONALEBILLEDER *****/
 
 function personImg(person) {
-  var billede = PERSON_BILLEDER[person] || "https://via.placeholder.com/150";
-
-  if (brugTegnedeBilleder) {
-    billede = billede.replace(".jpg", "A.jpg");
-  }
-
-  return billede;
-}
-
-function skiftPersonaleBilleder() {
-  personaleKlik++;
-
-  if (personaleKlik >= 3) {
-    brugTegnedeBilleder = !brugTegnedeBilleder;
-    personaleKlik = 0;
-    visPersonale();
-  }
+  return PERSON_BILLEDER[person] || "";
 }
 
 
