@@ -1303,6 +1303,11 @@ function visPersonale() {
       }
 
       statusFarve = "red";
+
+      /* Sanne skal ved sygdom kun markeres med rød ring – uden teksten "Syg" */
+      if (person === "Sanne" && fravaer.aktivitet === "Syg") {
+        label = "";
+      }
     } else if (aktivStatus) {
       label = aktivStatus.aktivitet;
 
