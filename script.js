@@ -59,7 +59,7 @@ var AKTIVITETS_INFO = {
   "Friday Minds": { ikon: "🎉", klasse: "friday" },
   "Fri": { ikon: "☀️", klasse: "fri" },
   "Fællespause": { ikon: "☕", klasse: "pause" },
-  "Fødselsdag": { ikon: "🎂", klasse: "foedselsdag" },
+  "Fødselsdag": { ikon: "🇩🇰", klasse: "foedselsdag" },
   "Møde": { ikon: "👥", klasse: "moede" },
   "KREA": { ikon: "🎨", klasse: "krea" },
   "Møder senere": { ikon: "⏰", klasse: "senere" },
@@ -1165,7 +1165,7 @@ function lavEventElement(a) {
   var person2 = escapeHtml(a.person2 || "");
   var id = escapeHtml(a.id || "");
 
-  var venstreIkon = erFoedselsdag ? "🎂" : (info.ikon || " ");
+  var venstreIkon = erFoedselsdag ? "🇩🇰" : (info.ikon || " ");
 
   var hoejreIndhold;
 
@@ -2170,5 +2170,3 @@ function fortolkVejr(kode, nedbor, vind) {
 
   return { ikon: "🌤️", tekst: "Vejr" };
 }
-
-
