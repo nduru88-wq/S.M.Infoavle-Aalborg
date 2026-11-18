@@ -1861,21 +1861,53 @@ function aabnRedigerSide(id, visningsDato) {
 }
 
 
-/***** SLIDESHOW *****/
+/***** SLIDESHOW – kæledyr, navne og tilfældig rækkefølge *****/
 
 var slideshowIndex = 0;
 var slideshowBilleder = [];
 var slideshowTimer = null;
-
 var SLIDESHOW_API =
   "https://api.github.com/repos/nduru88-wq/S.M.Infoavle-Aalborg/contents/slideshow";
 
-function startSlideshow() {
-  hentSlideshowBillederFraGithub();
+function blandSlideshow(liste) {
+  for (var i = liste.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = liste[i];
+    liste[i] = liste[j];
+    liste[j] = temp;
+  }
+  return liste;
+}
 
-  setInterval(function() {
-    hentSlideshowBillederFraGithub();
-  }, 30 * 60 * 1000);
+function slideshowNavn(filnavn) {
+  var navn = String(filnavn || "").replace(/\.[^.]+$/, "");
+  var dele = navn.split("_").filter(Boolean);
+  if (dele.some(function(del) { return /^(anonym|anonymus|anonymous|anonomuus|anonymou?s)$/i.test(del); })) {
+    return "Anonym";
+  }
+  // Sidste tal er billednummer, ikke en del af kæledyrets navn.
+  if (dele.length > 1 && /^\d+$/.test(dele[dele.length - 1])) dele.pop();
+  return dele.join(" - ") || "";
+}
+
+function opretSlideshowNavnefelt(wrapId, feltId) {
+  var wrap = $(wrapId);
+  if (!wrap) return null;
+  var felt = $(feltId);
+  if (!felt) {
+    felt = document.createElement("div");
+    felt.id = feltId;
+    felt.className = "kaeledyr-navn";
+    wrap.appendChild(felt);
+  }
+  return felt;
+}
+
+function startSlideshow() {
+  opretSlideshowNavnefelt("pcSlideshow", "slideshowKaeleNavn");
+  opretSlideshowNavnefelt("mobilSlideshowOverlay", "mobilSlideshowKaeleNavn");
+  hentSlideshowBillederFraGithub();
+  setInterval(hentSlideshowBillederFraGithub, 30 * 60 * 1000);
 }
 
 function hentSlideshowBillederFraGithub() {
@@ -1886,23 +1918,36 @@ function hentSlideshowBillederFraGithub() {
     })
     .then(function(files) {
       if (!Array.isArray(files)) return;
-
-      slideshowBilleder = files
+      var nye = files
         .filter(function(file) {
           return file.type === "file" && /\.(png|jpg|jpeg|webp|gif)$/i.test(file.name);
         })
         .map(function(file) {
-          return file.download_url;
+          return { url: file.download_url, navn: slideshowNavn(file.name) };
         });
-
-      if (slideshowBilleder.length === 0) return;
-
+      if (!nye.length) return;
+      // Genindlæsning hver halve time skal ikke nulstille et aktivt slideshow,
+      // medmindre samlingen af filer faktisk er ændret.
+      var gammelSignatur = slideshowBilleder.map(function(x) { return x.url; }).sort().join("|");
+      var nySignatur = nye.map(function(x) { return x.url; }).sort().join("|");
+      if (gammelSignatur === nySignatur && slideshowTimer) return;
+      slideshowBilleder = blandSlideshow(nye);
       slideshowIndex = 0;
       visSlideshowBillede();
-
       if (slideshowTimer) clearInterval(slideshowTimer);
       slideshowTimer = setInterval(function() {
-        slideshowIndex = (slideshowIndex + 1) % slideshowBilleder.length;
+        slideshowIndex++;
+        if (slideshowIndex >= slideshowBilleder.length) {
+          var sidst = slideshowBilleder[slideshowBilleder.length - 1];
+          blandSlideshow(slideshowBilleder);
+          // Undgå samme billede lige før og efter en ny runde.
+          if (slideshowBilleder.length > 1 && slideshowBilleder[0].url === sidst.url) {
+            var t = slideshowBilleder[0];
+            slideshowBilleder[0] = slideshowBilleder[1];
+            slideshowBilleder[1] = t;
+          }
+          slideshowIndex = 0;
+        }
         visSlideshowBillede();
       }, 5000);
     })
@@ -1912,32 +1957,27 @@ function hentSlideshowBillederFraGithub() {
 }
 
 function visSlideshowBillede() {
-  if (slideshowBilleder.length === 0) return;
-
-  var url = slideshowBilleder[slideshowIndex];
+  if (!slideshowBilleder.length) return;
+  var billede = slideshowBilleder[slideshowIndex];
   var counterTekst = (slideshowIndex + 1) + " / " + slideshowBilleder.length;
-
   var pcImg = $("slideshowImg");
   var mobilImg = $("mobilSlideshowImg");
-  var pcCounter = $("slideshowCounter");
-  var mobilCounter = $("mobilSlideshowCounter");
-
-  if (pcImg) pcImg.src = url;
-  if (mobilImg) mobilImg.src = url;
-  if (pcCounter) pcCounter.textContent = counterTekst;
-  if (mobilCounter) mobilCounter.textContent = counterTekst;
+  if (pcImg) pcImg.src = billede.url;
+  if (mobilImg) mobilImg.src = billede.url;
+  setText("slideshowCounter", counterTekst);
+  setText("mobilSlideshowCounter", counterTekst);
+  var pcNavn = opretSlideshowNavnefelt("pcSlideshow", "slideshowKaeleNavn");
+  var mobilNavn = opretSlideshowNavnefelt("mobilSlideshowOverlay", "mobilSlideshowKaeleNavn");
+  if (pcNavn) pcNavn.textContent = billede.navn;
+  if (mobilNavn) mobilNavn.textContent = billede.navn;
+  setText("slideshowViewerNavn", billede.navn);
 }
 
 function aabnMobilSlideshow() {
   var overlay = $("mobilSlideshowOverlay");
   if (!overlay) return;
-
-  if (slideshowBilleder.length > 0) {
-    visSlideshowBillede();
-  } else {
-    hentSlideshowBillederFraGithub();
-  }
-
+  if (slideshowBilleder.length) visSlideshowBillede();
+  else hentSlideshowBillederFraGithub();
   overlay.classList.add("vis");
   overlay.setAttribute("aria-hidden", "false");
 }
@@ -1945,7 +1985,6 @@ function aabnMobilSlideshow() {
 function lukMobilSlideshow() {
   var overlay = $("mobilSlideshowOverlay");
   if (!overlay) return;
-
   overlay.classList.remove("vis");
   overlay.setAttribute("aria-hidden", "true");
 }

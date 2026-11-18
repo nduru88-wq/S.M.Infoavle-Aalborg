@@ -2307,3 +2307,31 @@ body.mobil-visning .event-person-photos { width:72px; height:46px; }
 body.mobil-visning .event-person-photos-two .event-person-photo:first-child { left:0; }
 body.mobil-visning .event-person-photos-two .event-person-photo-second { right:0; }
 body.mobil-visning .event-person-label-two { max-width:92px; font-size:10px; }
+
+/* Kæledyr – navnebjælke over billedets nederste kant */
+#pcSlideshow, #mobilSlideshowOverlay { position: relative; }
+.kaeledyr-navn {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  max-width: calc(100% - 110px);
+  padding: 7px 14px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.72);
+  color: white;
+  font-size: clamp(13px, 1.2vw, 19px);
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+#mobilSlideshowKaeleNavn {
+  position: fixed;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  max-width: calc(100vw - 120px);
+  font-size: 18px;
+}
