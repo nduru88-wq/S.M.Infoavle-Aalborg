@@ -1869,14 +1869,75 @@ var slideshowTimer = null;
 var SLIDESHOW_API =
   "https://api.github.com/repos/nduru88-wq/S.M.Infoavle-Aalborg/contents/slideshow";
 
-function blandSlideshow(liste) {
-  for (var i = liste.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = liste[i];
-    liste[i] = liste[j];
-    liste[j] = temp;
+// Fast, varieret rækkefølge: samme filsamling giver altid samme placering.
+// Ejerens navn er første del af filnavnet, før første understregning.
+function slideshowEjer(filnavn) {
+  var ejer = String(filnavn || "").split("/").pop().split("_")[0].toLowerCase();
+  if (/^(anonym|anonymus|anonymous|anonomuus|anonymou?s)$/.test(ejer)) {
+    // Anonyme billeder er ikke nødvendigvis fra samme ejer.
+    return "anonym:" + filnavn;
   }
-  return liste;
+  return ejer;
+}
+
+function slideshowHash(tekst) {
+  var h = 2166136261;
+  for (var i = 0; i < tekst.length; i++) {
+    h = Math.imul(h ^ tekst.charCodeAt(i), 16777619);
+  }
+  return h >>> 0;
+}
+
+function blandSlideshow(liste) {
+  var grupper = {};
+  liste.forEach(function(billede) {
+    var ejer = billede.ejer;
+    if (!grupper[ejer]) grupper[ejer] = [];
+    grupper[ejer].push(billede);
+  });
+  var ejere = Object.keys(grupper);
+  ejere.forEach(function(ejer) {
+    grupper[ejer].sort(function(a, b) {
+      return slideshowHash(a.filnavn + "|SpecialMinds") - slideshowHash(b.filnavn + "|SpecialMinds") ||
+        a.filnavn.localeCompare(b.filnavn);
+    });
+  });
+  var resultat = [];
+  var sidsteEjer = "";
+  while (resultat.length < liste.length) {
+    var mulige = ejere.filter(function(ejer) {
+      return grupper[ejer].length && ejer !== sidsteEjer;
+    });
+    if (!mulige.length) {
+      mulige = ejere.filter(function(ejer) { return grupper[ejer].length; });
+    }
+    // Vælg den ejer, der har flest billeder tilbage, så store grupper
+    // fordeles jævnt. Hash afgør ligestilling på en stabil, blandet måde.
+    mulige.sort(function(a, b) {
+      return grupper[b].length - grupper[a].length ||
+        slideshowHash(a + "|ejer") - slideshowHash(b + "|ejer") ||
+        a.localeCompare(b);
+    });
+    var valgt = mulige[0];
+    resultat.push(grupper[valgt].shift());
+    sidsteEjer = valgt;
+  }
+  // Reducer også gentagelse ved overgangen fra sidste til første billede.
+  if (resultat.length > 2 && resultat[0].ejer === resultat[resultat.length - 1].ejer) {
+    for (var i = 1; i < resultat.length - 1; i++) {
+      var foer = resultat[i - 1].ejer;
+      var efter = resultat[i + 1].ejer;
+      if (resultat[i].ejer !== resultat[resultat.length - 1].ejer &&
+          resultat[0].ejer !== foer && resultat[0].ejer !== efter &&
+          resultat[i].ejer !== resultat[1].ejer) {
+        var midlertidig = resultat[0];
+        resultat[0] = resultat[i];
+        resultat[i] = midlertidig;
+        break;
+      }
+    }
+  }
+  return resultat;
 }
 
 function slideshowNavn(filnavn) {
@@ -1923,7 +1984,7 @@ function hentSlideshowBillederFraGithub() {
           return file.type === "file" && /\.(png|jpg|jpeg|webp|gif)$/i.test(file.name);
         })
         .map(function(file) {
-          return { url: file.download_url, navn: slideshowNavn(file.name) };
+          return { url: file.download_url, filnavn: file.name, ejer: slideshowEjer(file.name), navn: slideshowNavn(file.name) };
         });
       if (!nye.length) return;
       // Genindlæsning hver halve time skal ikke nulstille et aktivt slideshow,
@@ -1938,14 +1999,7 @@ function hentSlideshowBillederFraGithub() {
       slideshowTimer = setInterval(function() {
         slideshowIndex++;
         if (slideshowIndex >= slideshowBilleder.length) {
-          var sidst = slideshowBilleder[slideshowBilleder.length - 1];
-          blandSlideshow(slideshowBilleder);
-          // Undgå samme billede lige før og efter en ny runde.
-          if (slideshowBilleder.length > 1 && slideshowBilleder[0].url === sidst.url) {
-            var t = slideshowBilleder[0];
-            slideshowBilleder[0] = slideshowBilleder[1];
-            slideshowBilleder[1] = t;
-          }
+          // Gentag præcis den samme rækkefølge i alle efterfølgende runder.
           slideshowIndex = 0;
         }
         visSlideshowBillede();
